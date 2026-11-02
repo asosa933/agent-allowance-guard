@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agent Allowance Guard · NEAR testnet</title>
+  <meta name="description" content="A NEAR testnet vault that lets an AI agent pay only inside an owner-set policy." />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <p class="eyebrow">NEAR testnet · AI Security &amp; Defense</p>
+      <h1>Agent Allowance Guard</h1>
+      <p class="lead">The owner funds a vault and sets the rules. The agent can pay only inside those rules. A compromised or hallucinating agent cannot drain it.</p>
+    </div>
+    <p class="stamp">Testnet only</p>
+  </header>
+
+  <main>
+    <section class="notice" id="notice">
+      <p>This page does not ask for a wallet or a key. It reads the live testnet contract and replays a recorded run of real transactions.</p>
+    </section>
+
+    <section class="links" id="links" hidden>
+      <a id="contract-link" href="#" target="_blank" rel="noopener">Contract</a>
+      <a id="agent-link" href="#" target="_blank" rel="noopener">Agent account</a>
+      <a id="repo-link" href="https://github.com/asosa933/agent-allowance-guard" target="_blank" rel="noopener">Repository</a>
+      <button type="button" id="refresh">Refresh chain state</button>
+      <span id="refreshed" class="muted"></span>
+    </section>
+
+    <section class="grid" id="policy" hidden>
+      <article>
+        <h2>Per payment</h2>
+        <p class="figure" id="per-payment">—</p>
+        <p class="muted">Maximum one call to <code>pay</code> may send.</p>
+      </article>
+      <article>
+        <h2>Rolling 24 hours</h2>
+        <p class="figure" id="spent">—</p>
+        <div class="bar" aria-hidden="true"><span id="spent-bar"></span></div>
+        <p class="muted" id="spent-caption"></p>
+      </article>
+      <article>
+        <h2>Spendable balance</h2>
+        <p class="figure" id="balance">—</p>
+        <p class="muted">Vault balance minus storage and a safety reserve.</p>
+      </article>
+      <article>
+        <h2>Status</h2>
+        <p class="figure" id="paused">—</p>
+        <p class="muted" id="roles"></p>
+      </article>
+    </section>
+
+    <section class="split">
+      <article>
+        <h2>Allowlist</h2>
+        <ul class="chips" id="allowlist"></ul>
+      </article>
+      <article>
+        <h2>Agent access key</h2>
+        <div id="keys" class="keys"></div>
+      </article>
+    </section>
+
+    <section class="run">
+      <div class="run-head">
+        <div>
+          <h2>Recorded agent run</h2>
+          <p class="muted" id="run-summary">Loading the recorded transactions…</p>
+        </div>
+        <button type="button" id="play">Play</button>
+      </div>
+      <ol id="attempts" class="attempts"></ol>
+    </section>
+
+    <section class="split">
+      <article>
+        <h2>Payments on chain</h2>
+        <div id="payments" class="log"></div>
+      </article>
+      <article>
+        <h2>Rejected attempts</h2>
+        <div id="rejections" class="log"></div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <p>Built for NEAR Hackathon 2026. No mainnet funds. The agent key on this demo can call <code>pay</code> and nothing else.</p>
+  </footer>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
