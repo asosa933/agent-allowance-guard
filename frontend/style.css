@@ -1,0 +1,225 @@
+:root {
+  color-scheme: dark;
+  --bg: #10140f;
+  --bg-2: #171d14;
+  --line: #2d3828;
+  --text: #eef5e6;
+  --muted: #a7b59c;
+  --lime: #d6ff4a;
+  --lime-dim: #243014;
+  --coral: #ff6b45;
+  --coral-dim: #3a2018;
+  --amber: #f0c14a;
+  --shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(900px 420px at 90% -10%, rgba(214, 255, 74, 0.08), transparent 60%),
+    linear-gradient(180deg, #141a12 0%, var(--bg) 280px);
+  color: var(--text);
+  font: 16px/1.5 "Segoe UI", system-ui, sans-serif;
+}
+
+code, .figure, .mono {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+}
+
+a { color: var(--lime); }
+
+.top, main, footer {
+  width: min(1120px, calc(100% - 32px));
+  margin-inline: auto;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-end;
+  padding: 36px 0 12px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--lime);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(36px, 5vw, 58px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+}
+
+.lead {
+  max-width: 62ch;
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.stamp {
+  margin: 0;
+  border: 1px solid var(--lime);
+  color: var(--lime);
+  padding: 8px 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 12px;
+  transform: rotate(2deg);
+}
+
+main { display: grid; gap: 16px; padding-bottom: 48px; }
+
+.notice, article, .run {
+  background: rgba(23, 29, 20, 0.92);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.notice { padding: 14px 18px; }
+.notice p { margin: 0; }
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+}
+
+.links a, button {
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--text);
+  padding: 8px 14px;
+  text-decoration: none;
+}
+
+button { cursor: pointer; font: inherit; }
+button:hover, .links a:hover { border-color: var(--lime); }
+
+.grid, .split {
+  display: grid;
+  gap: 16px;
+}
+
+.grid { grid-template-columns: repeat(4, 1fr); }
+.split { grid-template-columns: 1fr 1fr; }
+
+article, .run { padding: 18px; }
+
+h2 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.figure {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: -0.04em;
+}
+
+.muted { color: var(--muted); margin: 6px 0 0; }
+
+.bar {
+  height: 10px;
+  border-radius: 999px;
+  background: #0c100b;
+  overflow: hidden;
+  margin-top: 12px;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--lime), #8fb82a);
+}
+
+.chips, .attempts { list-style: none; margin: 0; padding: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips li, .key {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px 10px;
+  word-break: break-all;
+}
+
+.keys { display: grid; gap: 8px; }
+
+.run-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+#play[aria-pressed="true"] {
+  background: var(--lime);
+  color: #142000;
+  border-color: var(--lime);
+}
+
+.attempts { display: grid; gap: 8px; margin-top: 14px; }
+
+.attempt {
+  display: grid;
+  grid-template-columns: 42px 1fr auto;
+  gap: 12px;
+  align-items: start;
+  width: 100%;
+  text-align: left;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.attempt.active { border-color: var(--lime); }
+
+.step-no {
+  font-family: ui-monospace, Consolas, monospace;
+  color: var(--muted);
+}
+
+.badge {
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.badge.allowed { background: var(--lime-dim); color: var(--lime); }
+.badge.blocked, .badge.rejected { background: var(--coral-dim); color: var(--coral); }
+
+.detail { margin: 6px 0 0; color: var(--muted); }
+.detail a { color: var(--amber); }
+
+.log { display: grid; gap: 8px; }
+.log article {
+  box-shadow: none;
+  padding: 12px;
+}
+
+footer {
+  padding: 8px 0 32px;
+  color: var(--muted);
+}
+
+@media (max-width: 900px) {
+  .grid, .split { grid-template-columns: 1fr; }
+  .top { flex-direction: column; align-items: flex-start; }
+  .attempt { grid-template-columns: 32px 1fr; }
+  .attempt .badge { grid-column: 2; }
+}

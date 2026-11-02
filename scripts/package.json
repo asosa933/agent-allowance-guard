@@ -1,0 +1,9 @@
+{
+  "name": "agent-allowance-guard-scripts",
+  "private": true,
+  "type": "module",
+  "description": "Testnet-only deploy and read scripts for Agent Allowance Guard",
+  "dependencies": {
+    "near-api-js": "7.4.0"
+  }
+}

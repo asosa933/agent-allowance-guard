@@ -1,0 +1,10 @@
+/target
+**/*.wasm
+node_modules
+.near-credentials
+.env
+*.key
+*.pem
+credentials.json
+scripts/credentials/
+.DS_Store

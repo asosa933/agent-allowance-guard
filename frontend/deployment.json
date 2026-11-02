@@ -1,0 +1,16 @@
+{
+  "networkId": "testnet",
+  "rpcUrls": [
+    "https://rpc.testnet.near.org",
+    "https://test.rpc.fastnear.com"
+  ],
+  "contractId": "aag-c8qtzp.testnet",
+  "ownerId": "owner.aag-c8qtzp.testnet",
+  "agentId": "agent.aag-c8qtzp.testnet",
+  "vendorId": "vendor.aag-c8qtzp.testnet",
+  "explorerAccount": "https://testnet.nearblocks.io/address/",
+  "explorerTx": "https://testnet.nearblocks.io/txns/",
+  "perPaymentYocto": "500000000000000000000000",
+  "dailyLimitYocto": "1000000000000000000000000",
+  "agentPublicKey": "ed25519:Hch6JDSkWQ2A3kLWXoMMw38cbqTRZ4npVW9JLMcYuw3E"
+}

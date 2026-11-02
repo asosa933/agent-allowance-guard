@@ -1,0 +1,13 @@
+[workspace]
+resolver = "2"
+members = ["contract", "integration-tests"]
+
+# Release profile is what gets deployed. panic=abort is required for NEAR wasm.
+# overflow-checks stay on so a bad amount cannot wrap in release builds.
+[profile.release]
+codegen-units = 1
+opt-level = "z"
+lto = true
+panic = "abort"
+overflow-checks = true
+strip = true

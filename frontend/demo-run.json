@@ -1,0 +1,255 @@
+{
+  "networkId": "testnet",
+  "contractId": "aag-c8qtzp.testnet",
+  "ownerId": "owner.aag-c8qtzp.testnet",
+  "agentId": "agent.aag-c8qtzp.testnet",
+  "vendorId": "vendor.aag-c8qtzp.testnet",
+  "recordedAt": "2026-11-02T18:28:02.196Z",
+  "summary": "A recorded testnet run. The agent key calls pay. Out-of-policy payments stay in the vault, and the key cannot withdraw or pause.",
+  "attempts": [
+    {
+      "step": 1,
+      "title": "Pay 0.3 NEAR to the allowlisted vendor",
+      "narrator": "The agent pays a 0.3 NEAR invoice. That is under the 0.5 NEAR per-payment cap.",
+      "signer": "agent",
+      "method": "pay",
+      "receiverId": "vendor.aag-c8qtzp.testnet",
+      "amountYocto": "300000000000000000000000",
+      "amountNear": "0.3",
+      "expected": "allowed",
+      "observed": "allowed",
+      "reason": null,
+      "txHash": "BvRkFviHiUPPrzaxpg89VEPu16vCEvXfrhncvwQQeW2g",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/BvRkFviHiUPPrzaxpg89VEPu16vCEvXfrhncvwQQeW2g",
+      "success": true,
+      "logs": [
+        "EVENT_JSON:{\"standard\":\"agent-allowance-guard\",\"version\":\"1.0.0\",\"event\":\"payment_allowed\",\"data\":[{\"receiver_id\":\"vendor.aag-c8qtzp.testnet\",\"amount\":\"300000000000000000000000\",\"memo\":\"vendor invoice 0.3\",\"reason\":null,\"payment_id\":1,\"spent_in_window\":\"300000000000000000000000\"}]}"
+      ]
+    },
+    {
+      "step": 2,
+      "title": "Pay 0.6 NEAR to the same vendor",
+      "narrator": "The agent tries 0.6 NEAR. The per-payment limit is 0.5, so the vault refuses.",
+      "signer": "agent",
+      "method": "pay",
+      "receiverId": "vendor.aag-c8qtzp.testnet",
+      "amountYocto": "600000000000000000000000",
+      "amountNear": "0.6",
+      "expected": "blocked",
+      "observed": "blocked",
+      "reason": "exceeds_per_payment_limit",
+      "txHash": "S5MiimbdQggdBcjPEYP3DM1jxYRzFE6VqcqoFyuB7cF",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/S5MiimbdQggdBcjPEYP3DM1jxYRzFE6VqcqoFyuB7cF",
+      "success": true,
+      "logs": [
+        "EVENT_JSON:{\"standard\":\"agent-allowance-guard\",\"version\":\"1.0.0\",\"event\":\"payment_blocked\",\"data\":[{\"receiver_id\":\"vendor.aag-c8qtzp.testnet\",\"amount\":\"600000000000000000000000\",\"memo\":\"oversized invoice\",\"reason\":\"exceeds_per_payment_limit\",\"payment_id\":null,\"spent_in_window\":\"300000000000000000000000\"}]}"
+      ]
+    },
+    {
+      "step": 3,
+      "title": "Pay 0.4 NEAR to the vendor",
+      "narrator": "0.4 NEAR is inside the per-payment cap. Spent today becomes 0.7 of 1.0.",
+      "signer": "agent",
+      "method": "pay",
+      "receiverId": "vendor.aag-c8qtzp.testnet",
+      "amountYocto": "400000000000000000000000",
+      "amountNear": "0.4",
+      "expected": "allowed",
+      "observed": "allowed",
+      "reason": null,
+      "txHash": "d5saVu5Ust2jAsA5iMWVhQRB4FTRktniMvL3aZQQGG6",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/d5saVu5Ust2jAsA5iMWVhQRB4FTRktniMvL3aZQQGG6",
+      "success": true,
+      "logs": [
+        "EVENT_JSON:{\"standard\":\"agent-allowance-guard\",\"version\":\"1.0.0\",\"event\":\"payment_allowed\",\"data\":[{\"receiver_id\":\"vendor.aag-c8qtzp.testnet\",\"amount\":\"400000000000000000000000\",\"memo\":\"vendor invoice 0.4\",\"reason\":null,\"payment_id\":2,\"spent_in_window\":\"700000000000000000000000\"}]}"
+      ]
+    },
+    {
+      "step": 4,
+      "title": "Pay another 0.4 NEAR",
+      "narrator": "0.7 plus 0.4 would pass 1 NEAR in the rolling day. The vault blocks it.",
+      "signer": "agent",
+      "method": "pay",
+      "receiverId": "vendor.aag-c8qtzp.testnet",
+      "amountYocto": "400000000000000000000000",
+      "amountNear": "0.4",
+      "expected": "blocked",
+      "observed": "blocked",
+      "reason": "exceeds_daily_limit",
+      "txHash": "GJQrfsXbYpGUffPuvz7D3LL9f1yK9fJfxPT5ZBJYJyhn",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/GJQrfsXbYpGUffPuvz7D3LL9f1yK9fJfxPT5ZBJYJyhn",
+      "success": true,
+      "logs": [
+        "EVENT_JSON:{\"standard\":\"agent-allowance-guard\",\"version\":\"1.0.0\",\"event\":\"payment_blocked\",\"data\":[{\"receiver_id\":\"vendor.aag-c8qtzp.testnet\",\"amount\":\"400000000000000000000000\",\"memo\":\"would exceed the day\",\"reason\":\"exceeds_daily_limit\",\"payment_id\":null,\"spent_in_window\":\"700000000000000000000000\"}]}"
+      ]
+    },
+    {
+      "step": 5,
+      "title": "Pay 0.1 NEAR to an unknown account",
+      "narrator": "The agent names a recipient the owner never allowlisted.",
+      "signer": "agent",
+      "method": "pay",
+      "receiverId": "not-allowlisted.testnet",
+      "amountYocto": "100000000000000000000000",
+      "amountNear": "0.1",
+      "expected": "blocked",
+      "observed": "blocked",
+      "reason": "not_allowlisted",
+      "txHash": "71tdKpcjqsXDSWyzkqsqXjCHQhKtJCXEW5cSSU8tMCni",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/71tdKpcjqsXDSWyzkqsqXjCHQhKtJCXEW5cSSU8tMCni",
+      "success": true,
+      "logs": [
+        "EVENT_JSON:{\"standard\":\"agent-allowance-guard\",\"version\":\"1.0.0\",\"event\":\"payment_blocked\",\"data\":[{\"receiver_id\":\"not-allowlisted.testnet\",\"amount\":\"100000000000000000000000\",\"memo\":\"unknown recipient\",\"reason\":\"not_allowlisted\",\"payment_id\":null,\"spent_in_window\":\"700000000000000000000000\"}]}"
+      ]
+    },
+    {
+      "step": 6,
+      "title": "Owner pauses the vault",
+      "narrator": "The owner hits pause. The agent key cannot do this.",
+      "signer": "owner",
+      "method": "pause",
+      "receiverId": null,
+      "amountYocto": null,
+      "amountNear": null,
+      "expected": "paused",
+      "observed": "paused",
+      "reason": null,
+      "txHash": "YbuHFYggS72sMJKnk7GMU2Gynyape8CdSZWRU7DunnK",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/YbuHFYggS72sMJKnk7GMU2Gynyape8CdSZWRU7DunnK",
+      "success": true,
+      "logs": [
+        "EVENT_JSON:{\"standard\":\"agent-allowance-guard\",\"version\":\"1.0.0\",\"event\":\"paused\",\"data\":[{}]}"
+      ]
+    },
+    {
+      "step": 7,
+      "title": "Agent pays while the vault is paused",
+      "narrator": "The same 0.1 NEAR payment that would otherwise be valid is blocked.",
+      "signer": "agent",
+      "method": "pay",
+      "receiverId": "vendor.aag-c8qtzp.testnet",
+      "amountYocto": "100000000000000000000000",
+      "amountNear": "0.1",
+      "expected": "blocked",
+      "observed": "blocked",
+      "reason": "paused",
+      "txHash": "4RvdcN6u3MpnypUAo1xfvvjXg6QYWxWA9eURFJT9abZY",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/4RvdcN6u3MpnypUAo1xfvvjXg6QYWxWA9eURFJT9abZY",
+      "success": true,
+      "logs": [
+        "EVENT_JSON:{\"standard\":\"agent-allowance-guard\",\"version\":\"1.0.0\",\"event\":\"payment_blocked\",\"data\":[{\"receiver_id\":\"vendor.aag-c8qtzp.testnet\",\"amount\":\"100000000000000000000000\",\"memo\":\"while paused\",\"reason\":\"paused\",\"payment_id\":null,\"spent_in_window\":\"700000000000000000000000\"}]}"
+      ]
+    },
+    {
+      "step": 8,
+      "title": "Owner unpauses the vault",
+      "narrator": "The owner lifts the pause. The policy limits stay in place.",
+      "signer": "owner",
+      "method": "unpause",
+      "receiverId": null,
+      "amountYocto": null,
+      "amountNear": null,
+      "expected": "unpaused",
+      "observed": "unpaused",
+      "reason": null,
+      "txHash": "6KuF1RK99NWXxMGpow5oFNQWdj9oRSj9nFckJx2td8E7",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/6KuF1RK99NWXxMGpow5oFNQWdj9oRSj9nFckJx2td8E7",
+      "success": true,
+      "logs": [
+        "EVENT_JSON:{\"standard\":\"agent-allowance-guard\",\"version\":\"1.0.0\",\"event\":\"unpaused\",\"data\":[{}]}"
+      ]
+    },
+    {
+      "step": 9,
+      "title": "Agent pays 0.1 NEAR after the pause",
+      "narrator": "An in-policy payment works again. Spent today is 0.8 of 1.0.",
+      "signer": "agent",
+      "method": "pay",
+      "receiverId": "vendor.aag-c8qtzp.testnet",
+      "amountYocto": "100000000000000000000000",
+      "amountNear": "0.1",
+      "expected": "allowed",
+      "observed": "allowed",
+      "reason": null,
+      "txHash": "GrLrwieF8ujLwrPnVJjaVj6vn9cdaGS8eM2e7sSnHYkB",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/GrLrwieF8ujLwrPnVJjaVj6vn9cdaGS8eM2e7sSnHYkB",
+      "success": true,
+      "logs": [
+        "EVENT_JSON:{\"standard\":\"agent-allowance-guard\",\"version\":\"1.0.0\",\"event\":\"payment_allowed\",\"data\":[{\"receiver_id\":\"vendor.aag-c8qtzp.testnet\",\"amount\":\"100000000000000000000000\",\"memo\":\"after unpause\",\"reason\":null,\"payment_id\":3,\"spent_in_window\":\"800000000000000000000000\"}]}"
+      ]
+    },
+    {
+      "step": 10,
+      "title": "Agent key tries to withdraw the vault",
+      "narrator": "The function-call key is limited to pay. The protocol rejects withdraw.",
+      "signer": "agent",
+      "method": "withdraw",
+      "receiverId": null,
+      "amountYocto": "1",
+      "amountNear": null,
+      "expected": "rejected",
+      "observed": "rejected",
+      "reason": "method_not_allowed",
+      "txHash": null,
+      "explorerUrl": null,
+      "success": false,
+      "logs": []
+    },
+    {
+      "step": 11,
+      "title": "Owner tries to call pay",
+      "narrator": "The owner holds the funds, but pay accepts only the agent account.",
+      "signer": "owner",
+      "method": "pay",
+      "receiverId": "vendor.aag-c8qtzp.testnet",
+      "amountYocto": "100000000000000000000000",
+      "amountNear": "0.1",
+      "expected": "rejected",
+      "observed": "rejected",
+      "reason": "only the agent can call pay",
+      "txHash": "HPgtXzaEY1BAajT5cWXox62RLZDfYpWR9nZTK7ct4A85",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/HPgtXzaEY1BAajT5cWXox62RLZDfYpWR9nZTK7ct4A85",
+      "success": false,
+      "logs": [
+        "only the agent can call pay"
+      ]
+    },
+    {
+      "step": 12,
+      "title": "Owner withdraws 0.05 NEAR",
+      "narrator": "The owner can still take funds back. The agent cannot.",
+      "signer": "owner",
+      "method": "withdraw",
+      "receiverId": null,
+      "amountYocto": "50000000000000000000000",
+      "amountNear": "0.05",
+      "expected": "withdrawn",
+      "observed": "withdrawn",
+      "reason": null,
+      "txHash": "7w9fPZpHHX9j51u5aNtxJ4GAzXhTJragDbFakuqKLQhb",
+      "explorerUrl": "https://testnet.nearblocks.io/txns/7w9fPZpHHX9j51u5aNtxJ4GAzXhTJragDbFakuqKLQhb",
+      "success": true,
+      "logs": [
+        "EVENT_JSON:{\"standard\":\"agent-allowance-guard\",\"version\":\"1.0.0\",\"event\":\"withdrawn\",\"data\":[{\"receiver_id\":\"owner.aag-c8qtzp.testnet\",\"amount\":\"50000000000000000000000\"}]}"
+      ]
+    }
+  ],
+  "finalPolicy": {
+    "version": "1.0.0",
+    "contract_id": "aag-c8qtzp.testnet",
+    "owner_id": "owner.aag-c8qtzp.testnet",
+    "agent_id": "agent.aag-c8qtzp.testnet",
+    "paused": false,
+    "per_payment_limit": "500000000000000000000000",
+    "daily_limit": "1000000000000000000000000",
+    "window_ns": "86400000000000",
+    "spent_in_window": "800000000000000000000000",
+    "remaining_in_window": "200000000000000000000000",
+    "spendable_balance": "4399823209897009800000000",
+    "allowlist": [
+      "vendor.aag-c8qtzp.testnet"
+    ],
+    "payment_count": "3",
+    "rejection_count": "4"
+  }
+}
